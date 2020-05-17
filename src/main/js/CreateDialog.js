@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import ReactDOM from "react-dom";
 
 function CreateDialog({ attributes, onCreate }) {
   const firstNameRef = useRef("");

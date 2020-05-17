@@ -1,5 +1,4 @@
-import React, { useRef } from "react";
-import ReactDOM from "react-dom";
+import React, {useRef, useState} from "react";
 import Employee from "./Employee";
 
 function EmployeeList({
@@ -9,6 +8,7 @@ function EmployeeList({
   onNavigate,
   onUpdatePageSize,
 }) {
+  const [input, setInput] = useState(pageSize);
   const pageSizeRef = useRef(undefined);
 
   const employeeList = employees.map((employee) => (
@@ -34,14 +34,12 @@ function EmployeeList({
 
   const onInput = (e) => {
     e.preventDefault();
-    const pageSize = ReactDOM.findDOMNode(pageSizeRef.current).value;
-    if (/^[0-9]+$/.test(pageSize)) {
-      onUpdatePageSize(pageSize);
+    const { value } = e.target;
+    if (/^[0-9]+$/.test(value)) {
+      onUpdatePageSize(value);
+      setInput(value);
     } else {
-      ReactDOM.findDOMNode(pageSizeRef.current).value = pageSize.substring(
-        0,
-        pageSize.length - 1
-      );
+      setInput(pageSize.substring(0, pageSize.length - 1));
     }
   };
 
@@ -77,7 +75,7 @@ function EmployeeList({
 
   return (
     <div>
-      <input ref={pageSizeRef} defaultValue={pageSize} onInput={onInput} />
+      <input  value={input} onChange={onInput} />
       <table>
         <tbody>
           <tr>
